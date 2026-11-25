@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#121416">
+<title>Skin Forge — Апгрейдер скинов</title>
+<link rel="stylesheet" href="style.css">
+<script src="skins.js" defer></script>
+<script src="cases.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<header class="top"><a class="brand" href="./"><span class="logo"></span>SKIN<span>FORGE</span></a><nav class="top-nav" aria-label="Разделы"><button data-view="upgrade" aria-pressed="true">Upgrade</button><button data-view="cases" aria-pressed="false">Cases</button><button data-view="profile" aria-pressed="false">Профиль</button><button data-view="media" aria-pressed="false">Медийка</button></nav><div class="live-stats" aria-label="Статистика демо-игры">
+  <span class="online" title="Игроки и демоботы"><i></i> LINE <strong id="online">—</strong></span>
+  <span class="live-spins" title="Открытия кейсов и апгрейды, включая демоботов">SPINS <strong id="spin-total">—</strong></span>
+</div><div class="wallet"><strong id="wallet"></strong><button id="topup">＋ Пополнить</button></div></header>
+<div class="layout">
+<aside class="sidebar"><h2><i></i> Последние выпадения</h2><div id="feed"></div></aside>
+<main>
+<div class="intro" id="intro"><div class="eyebrow"><span class="logo mini"></span> SKIN FORGE</div><h1>Skin Upgrade</h1><p>Выбери скины, добавь баланс и попробуй улучшить свой инвентарь.</p></div>
+<section id="hero" class="hero" aria-label="Апгрейд">
+<div class="hero-col"><div class="slot"><header><span class="step">01</span><h2>Твои скины</h2></header><div class="slot-content" id="source"></div></div><div class="adjust"><label for="stake">Добавить баланс</label><strong id="stake-value"></strong><input id="stake" type="range" min="0" step="0.01" value="0"></div></div>
+<div class="hero-col center"><div class="gauge"><div class="spin-modes" role="group" aria-label="Скорость рулетки">
+  <button type="button" data-speed="fast" aria-pressed="true">Быстро</button>
+  <button type="button" data-speed="slow" aria-pressed="false">Медленно</button>
+</div><div class="dial" id="dial"><div class="ring"></div><div class="ticks"></div><div class="dial-core"><span>ШАНС УСПЕХА</span><strong id="chance">0%</strong><small id="chance-note">Выбери скины</small></div><div class="needle" id="needle"><b></b></div></div></div><button id="upgrade" class="primary" disabled><span class="logo mini"></span> Улучшить</button></div>
+<div class="hero-col"><div class="slot"><header><span class="step">02</span><h2>Цель апгрейда</h2></header><div class="slot-content" id="target"></div></div><div class="presets" aria-label="Быстрый выбор цели"><button data-factor="2">×2</button><button data-factor="4">×4</button><button data-factor="8">×8</button><button data-chance="25">25%</button><button data-chance="50">50%</button><button data-chance="75">75%</button></div></div>
+</section>
+<div id="notice" role="status" aria-live="polite"></div>
+<div class="lists" id="lists">
+<section class="panel" id="inventory-panel">
+<div class="panel-head">
+  <div class="inventory-heading"><div class="inventory-switch" role="group" aria-label="Мои скины и магазин">
+    <button id="show-inventory" aria-label="Мои скины" title="Мои скины" aria-pressed="true"><span class="inventory-icon"></span></button>
+    <button id="show-shop" aria-label="Магазин" title="Магазин" aria-pressed="false"><span class="shop-icon"></span></button>
+  </div><h2><span id="inventory-title">Мои скины</span> <span id="inventory-count"></span></h2></div>
+  <button id="clear" class="quiet">Сбросить выбор</button>
+</div>
+<div id="inventory" class="cards"></div>
+<div id="shop" hidden>
+  <div class="filters shop-filters"><input type="search" id="shop-search" placeholder="Поиск в магазине" aria-label="Поиск в магазине"><select id="shop-sort" aria-label="Сортировка магазина"><option value="asc">Сначала дешевле</option><option value="desc">Сначала дороже</option></select></div>
+  <div id="shop-cards" class="cards"></div>
+  <div class="pagination"><button id="shop-prev">Назад</button><span id="shop-page-label"></span><button id="shop-next">Дальше</button></div>
+</div>
+</section>
+<section class="panel"><div class="panel-head"><h2 id="catalog-title">Каталог CS2</h2><select id="sort" aria-label="Сортировка"><option value="asc">Сначала дешевле</option><option value="desc">Сначала дороже</option></select></div><div class="filters"><input type="search" id="search" placeholder="Поиск по названию" aria-label="Поиск по названию"><select id="category" aria-label="Категория"><option value="">Все категории</option></select><input type="number" min="0" id="max" step="0.01" placeholder="Макс. цена" aria-label="Максимальная цена"></div><div id="catalog" class="cards"></div><div class="pagination"><button id="prev">Назад</button><span id="page-label"></span><button id="next">Дальше</button></div></section>
+</div>
+<section class="cases-grid" id="cases" aria-label="Кейсы Skin Forge" hidden></section>
+<section class="profile panel" id="profile" hidden>
+  <header class="profile-header">
+    <div class="profile-avatar" aria-hidden="true"><span class="logo"></span></div>
+    <div><h2>Гостевой профиль</h2><p>Инвентарь привязан к этому браузеру.</p></div>
+    <div class="profile-balance"><span>Демобаланс</span><strong id="profile-balance"></strong></div>
+  </header>
+  <div class="panel-head"><h2>Мои скины <span id="profile-count"></span></h2><span class="profile-rate">Продажа за 90% цены</span></div>
+  <div class="cards" id="profile-items"></div>
+</section>
+<section id="media" class="media" hidden>
+  <article class="media-feature"><div><h2>Counter-Strike 2</h2><p>Официальные ролики и материалы Valve об игре.</p><a href="https://www.counter-strike.net/cs2" target="_blank" rel="noopener noreferrer">Смотреть материалы</a></div><div id="media-art"></div></article>
+  <article class="media-tile"><h2>Новости CS2</h2><p>Обновления игры и события от Valve.</p><a href="https://store.steampowered.com/news/app/730" target="_blank" rel="noopener noreferrer">Читать в Steam</a></article>
+  <article class="media-tile"><h2>Коллекция скинов</h2><p>Каталог и оригинальные изображения игровых предметов.</p><a href="https://github.com/ByMykel/CSGO-API" target="_blank" rel="noopener noreferrer">Открыть источник каталога</a></article>
+</section>
+<footer>Виртуальные предметы и баланс · Без реальных платежей</footer>
+</main>
+</div>
+<dialog id="deposit" aria-labelledby="deposit-title">
+  <header class="deposit-head"><div><span class="demo">ДЕМОПОПОЛНЕНИЕ</span><h2 id="deposit-title">Пополнение баланса</h2></div><button class="deposit-close" id="deposit-close" type="button" aria-label="Закрыть">×</button></header>
+  <div class="checkout-banner">
+    <div class="checkout-mark" aria-hidden="true">◈</div>
+    <div><strong>Кошелёк Skin Forge</strong><small>Виртуальные монеты для магазина и апгрейдов</small></div>
+    <span id="deposit-step" class="checkout-step">1 / 2</span>
+  </div>
+  <form id="deposit-details">
+    <fieldset class="checkout-methods">
+      <legend>Демонстрационный способ</legend>
+      <label><input type="radio" name="deposit-method" value="Visa" checked><span class="method-visa">Visa</span></label>
+      <label><input type="radio" name="deposit-method" value="Mastercard"><span class="method-mastercard">Mastercard</span></label>
+      <label><input type="radio" name="deposit-method" value="monobank"><span>monobank</span></label>
+      <label><input type="radio" name="deposit-method" value="СБП"><span class="method-sbp">СБП</span></label>
+    </fieldset>
+    <label for="deposit-amount">Сумма пополнения</label>
+    <div class="deposit-options" aria-label="Готовые суммы"><button type="button" data-amount="1000">1 000 ◈</button><button type="button" data-amount="10000">10 000 ◈</button><button type="button" data-amount="100000">100 000 ◈</button><button type="button" data-amount="1000000">1 000 000 ◈</button></div>
+    <input id="deposit-amount" type="number" min="1" max="10000000" step="1" required value="1000">
+    <div class="deposit-fields"><label>Демопочта<input id="deposit-email" type="email" required autocomplete="off" spellcheck="false"></label><label>Промокод<input id="deposit-promo" type="text" placeholder="До 5 букв" maxlength="5" pattern="[A-Za-zА-Яа-яЁё]{1,5}" autocomplete="off" spellcheck="false"></label></div>
+    <button id="deposit-random" class="quiet" type="button">Сгенерировать демоданные</button>
+    <div class="checkout-total"><span>К зачислению</span><strong id="deposit-total"></strong></div>
+    <button class="primary" type="submit">Продолжить</button>
+  </form>
+  <form id="deposit-confirm" hidden>
+    <div class="checkout-total"><span>К зачислению</span><strong id="confirm-total"></strong></div>
+    <div class="checkout-method-summary"><span>Способ</span><strong id="confirm-method"></strong></div>
+    <div class="demo-card-fields" id="demo-card-fields"><strong class="checkout-card-title">Тестовая карта Skin Forge</strong>
+      <label for="demo-card-number">Номер тестовой карты</label>
+      <input id="demo-card-number" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9]{16}" minlength="16" maxlength="16" placeholder="16 тестовых цифр" required aria-describedby="demo-card-help">
+      <div class="deposit-fields">
+        <label>Срок действия<input id="demo-card-expiry" type="text" inputmode="numeric" autocomplete="off" pattern="(0[1-9]|1[0-2])/[0-9]{2}" maxlength="5" placeholder="ММ/ГГ" required></label>
+        <label>Тестовый CVV<input id="demo-card-cvv" type="text" inputmode="numeric" autocomplete="off" pattern="[0-9]{3}" maxlength="3" placeholder="123" required></label>
+      </div>
+      <small id="demo-card-help">Введи любые 16 тестовых цифр, вымышленный срок и трёхзначный тестовый CVV. Данные остаются в этой форме.</small>
+    </div>
+    <p id="demo-sbp" hidden>Демонстрационное подтверждение СБП. Зачислятся виртуальные монеты.</p>
+    <button class="primary" type="submit">Подтвердить демопополнение</button>
+    <button class="quiet" id="deposit-back" type="button">Назад</button>
+  </form>
+</dialog>
+</body>
+</html>

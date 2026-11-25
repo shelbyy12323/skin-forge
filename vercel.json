@@ -1,0 +1,1 @@
+{"framework":null,"buildCommand":"node vercel-build.mjs","outputDirectory":"public","rewrites":[{"source":"/api/:operation(player|action|online|feed)","destination":"/api/game?operation=:operation"}]}
