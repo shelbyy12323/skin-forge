@@ -9,17 +9,7 @@ const json = (value, status = 200) => Response.json(value, {
 })
 const validSkin = id => typeof id === 'string' && Object.hasOwn(prices, id)
 
-function initialState(legacy) {
-  const fresh = {balance: 750, items: legacyIds.slice(0, 8), history: [], deposits: []}
-  if (!legacy || !Number.isSafeInteger(legacy.balance) || legacy.balance < 0 ||
-    legacy.balance > balanceLimit || !Array.isArray(legacy.items) ||
-    legacy.items.length > inventoryLimit || !legacy.items.every(validSkin)) return fresh
-  const history = Array.isArray(legacy.history) ? legacy.history.slice(0, 12).filter(entry =>
-    entry && validSkin(entry.id) && Number.isFinite(entry.chance) && entry.chance >= 0 &&
-    entry.chance <= 100 && typeof entry.success === 'boolean'
-  ).map(({id, chance, success}) => ({id, chance, success})) : []
-  return {balance: legacy.balance, items: legacy.items, history, deposits: []}
-}
+function initialState() { return {balance:0,items:[],history:[],deposits:[]} }
 
 function pickDrop(box, roll) {
   let threshold = roll * 100
@@ -128,7 +118,7 @@ async function handleApi(request, db, path) {
   if (!payload || typeof payload !== 'object') return json({error: 'Некорректный запрос.'}, 400)
   if (path === '/api/player') {
     await db.prepare('INSERT OR IGNORE INTO players (id, version, state) VALUES (?, 0, ?)')
-      .bind(id, JSON.stringify(initialState(payload.legacy))).run()
+      .bind(id, JSON.stringify(initialState())).run()
     return json(playerResponse(await queryPlayer()))
   }
   if (path !== '/api/action') return json({error: 'Страница не найдена.'}, 404)

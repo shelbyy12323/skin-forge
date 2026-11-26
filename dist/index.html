@@ -7,6 +7,8 @@
 <title>Skin Forge — Апгрейдер скинов</title>
 <link rel="stylesheet" href="style.css">
 <script src="skins.js" defer></script>
+<script src="charms.js" defer></script>
+<script src="profiles.js" defer></script>
 <script src="cases.js" defer></script>
 <script src="app.js" defer></script>
 </head>
@@ -50,7 +52,7 @@
 <section class="profile panel" id="profile" hidden>
   <header class="profile-header">
     <div class="profile-avatar" aria-hidden="true"><span class="logo"></span></div>
-    <div><h2>Гостевой профиль</h2><p>Инвентарь привязан к этому браузеру.</p></div>
+    <div><h2 id="account-name">Гостевой профиль</h2><button id="account-access">Войти / Регистрация</button> <button id="directory">Игроки и боты</button> <button id="admin-directory" hidden>Администрирование</button></div>
     <div class="profile-balance"><span>Демобаланс</span><strong id="profile-balance"></strong></div>
   </header>
   <div class="panel-head"><h2>Мои скины <span id="profile-count"></span></h2><span class="profile-rate">Продажа за 90% цены</span></div>
@@ -64,6 +66,7 @@
 <footer>Виртуальные предметы и баланс · Без реальных платежей</footer>
 </main>
 </div>
+<dialog id="accounts"><form method="dialog"><button aria-label="Закрыть">×</button></form><div id="accounts-body"></div></dialog>
 <dialog id="deposit" aria-labelledby="deposit-title">
   <header class="deposit-head"><div><span class="demo">ДЕМОПОПОЛНЕНИЕ</span><h2 id="deposit-title">Пополнение баланса</h2></div><button class="deposit-close" id="deposit-close" type="button" aria-label="Закрыть">×</button></header>
   <div class="checkout-banner">

@@ -1,17 +1,7 @@
 const skins = Object.fromEntries(catalogData.map(skin => [skin.id, skin]))
-const initial = { balance: 750, items: legacyIds.slice(0, 8), history: [] }
+const initial = { balance: 0, items: [], history: [] }
 const storageKey = 'skin-forge-demo-v1'
 let state = structuredClone(initial)
-const migrateId = id => typeof id === 'number' ? legacyIds[id] : id
-try {
-  const saved = JSON.parse(localStorage.getItem(storageKey))
-  if (Array.isArray(saved?.items)) saved.items = saved.items.map(migrateId).filter(id => skins[id])
-  if (Array.isArray(saved?.history)) saved.history = saved.history.filter(Boolean).map(entry => ({...entry, id: migrateId(entry.id)})).filter(entry => skins[entry.id])
-  if (saved && Number.isSafeInteger(saved.balance) && saved.balance >= 0 &&
-      Array.isArray(saved.items) && saved.items.every(id => skins[id]) &&
-      Array.isArray(saved.history) && saved.history.every(entry =>
-        skins[entry.id] && Number.isFinite(entry.chance))) state = saved
-} catch {}
 const selected = new Set()
 let target = null
 let stake = 0
@@ -59,7 +49,7 @@ const session = (() => {
   } catch {}
   return fresh
 })()
-const legacyState = state
+
 
 async function request(path, data) {
   const response = await fetch('/api/' + path, {
@@ -89,7 +79,7 @@ async function loadPlayer() {
   if (loading) return
   loading = true
   try {
-    const payload = await request('player', {legacy: legacyState})
+    const payload = await request('player', {})
     if (!payload.state) throw Error(payload.error)
     receivePlayer(payload)
     refreshPlayer()
@@ -303,7 +293,7 @@ function demoDrops(now) {
     const key = Math.imul(slot ^ (slot >>> 12), 1597334677) >>> 0
     const pool = slot % 4 === 0 ? standardDrops : cheapDrops
     const skin = pool[key % pool.length]
-    return {key: 'demo-' + slot, player: 'Бот ' + (key % 100 + 1),
+    return {key: 'demo-' + slot, bot: slot % 100 + 1, player: 'Бот ' + (slot % 100 + 1),
       id: skin.id, kind: 'case', success: true, at: slot * botTick}
   })
 }
@@ -325,6 +315,11 @@ function renderFeed(now = Date.now() + activityTimeOffset) {
       const label = entry.kind === 'case' ? 'Кейс' : entry.success ? 'Успех' : 'Неудача'
       item.append(picture(skin), element('small', money(skin.price)), element('strong', skin.name),
         element('small', entry.player), element('small', label))
+      if (entry.bot) {
+        const profile = element('button', entry.player, 'bot-link')
+        profile.onclick = () => inspectBot(entry.bot)
+        item.children[3].replaceWith(profile)
+      }
       feedItems.set(entry.key, item)
     }
     items.push(item)
@@ -538,7 +533,7 @@ async function rollCase(stage, box, winner) {
   if (reduceMotion.matches || !stage.isConnected) return
   const viewport = element('div', '', 'loot-window')
   const track = element('div', '', 'loot-track')
-  const landing = 15
+  const landing = 24
   for (let i = 0; i < landing + 4; i++) {
     const skin = i === landing ? winner : skins[box.drops[Math.floor(Math.random() * box.drops.length)].id]
     const tile = element('div', '', 'loot-tile')
@@ -564,6 +559,7 @@ async function rollCase(stage, box, winner) {
     const animation = track.animate([{transform:'translateX(0)'}, {transform:'translateX(' + -distance + 'px)'}],
       {duration:wheelSpeed === 'fast' ? 2500 : 5500,easing:'cubic-bezier(.18,.72,.2,1)',fill:'forwards'})
     await animation.finished
+    await target.animate([{filter:'brightness(2)', transform:'scale(.96)'},{filter:'brightness(1.12)',transform:'scale(1.06)'}],{duration:400,fill:'forwards'}).finished
   } finally { viewport.remove() }
 }
 
@@ -670,14 +666,14 @@ function demoOnline(now) {
   return Math.round(5000 + 3700 * Math.sin(phase) + 1150 * Math.sin(phase * 2.3) + 130 * Math.sin(tick / 87) + 3 * Math.sin(tick * 1.7))
 }
 
-// Integrate the simulated population over time at one spin per 40 participants per second.
+// Integrate the simulated population over time at one spin per 10 participants per second.
 function simulatedSpins(now) {
   const elapsed = Math.max(0, now - activityStart)
   let playerMilliseconds = 5000 * elapsed
   for (const [amplitude, period] of [[3700, 8100000], [1150, 8100000 / 2.3], [130, 78300], [3, 900 / 1.7]]) {
     playerMilliseconds += amplitude * period * (Math.cos(activityStart / period) - Math.cos((activityStart + elapsed) / period))
   }
-  return Math.floor(playerMilliseconds / 40000)
+  return Math.floor(playerMilliseconds / 10000)
 }
 
 function updateActivity() {

@@ -7,11 +7,13 @@ for (const [name, type] of Object.entries({
   'app.js': 'text/javascript',
   'cases.js': 'text/javascript',
   'skins.js': 'text/javascript',
+  'charms.js':'text/javascript',
+  'profiles.js':'text/javascript',
   'style.css': 'text/css',
 })) {
   assets['/' + name] = [readFileSync(new URL('../dist/' + name, import.meta.url), 'utf8'), type]
 }
-const catalog = runInNewContext(assets['/skins.js'][0] + '\n;({catalogData, legacyIds})')
+const catalog = runInNewContext(assets['/skins.js'][0] + '\n' + assets['/charms.js'][0] + '\n;({catalogData, legacyIds})')
 const prices = Object.fromEntries(catalog.catalogData.map(({id, price}) => [id, price]))
 const caseCatalog = runInNewContext(assets['/cases.js'][0] + '\n;caseCatalog')
 for (const box of [...caseCatalog, {cover:'covers/stage.png'}, {cover:'covers/shell.png'}]) {

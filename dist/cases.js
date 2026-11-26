@@ -1063,5 +1063,477 @@ const caseCatalog = [
     "code": "GV",
     "mark": "◇",
     "cover": "covers/case-14.png"
+  },
+  {
+    "id": "forge-0",
+    "name": "Pocket Metal",
+    "price": 35,
+    "drops": [
+      {
+        "id": "keychain-11",
+        "chance": 22
+      },
+      {
+        "id": "keychain-12",
+        "chance": 17
+      },
+      {
+        "id": "keychain-13",
+        "chance": 14
+      },
+      {
+        "id": "keychain-14",
+        "chance": 11
+      },
+      {
+        "id": "keychain-15",
+        "chance": 9
+      },
+      {
+        "id": "keychain-16",
+        "chance": 7
+      },
+      {
+        "id": "keychain-17",
+        "chance": 6
+      },
+      {
+        "id": "keychain-18",
+        "chance": 5
+      },
+      {
+        "id": "keychain-19",
+        "chance": 4
+      },
+      {
+        "id": "keychain-20",
+        "chance": 3
+      },
+      {
+        "id": "keychain-21",
+        "chance": 1
+      },
+      {
+        "id": "keychain-22",
+        "chance": 1
+      }
+    ],
+    "tone": "#6dd2ae",
+    "code": "SC",
+    "mark": "+",
+    "cover": "covers/case-1.png"
+  },
+  {
+    "id": "forge-1",
+    "name": "Key Ring",
+    "price": 240,
+    "drops": [
+      {
+        "id": "keychain-33",
+        "chance": 22
+      },
+      {
+        "id": "keychain-38",
+        "chance": 17
+      },
+      {
+        "id": "keychain-39",
+        "chance": 14
+      },
+      {
+        "id": "keychain-40",
+        "chance": 11
+      },
+      {
+        "id": "keychain-41",
+        "chance": 9
+      },
+      {
+        "id": "keychain-42",
+        "chance": 7
+      },
+      {
+        "id": "keychain-43",
+        "chance": 6
+      },
+      {
+        "id": "keychain-44",
+        "chance": 5
+      },
+      {
+        "id": "keychain-45",
+        "chance": 4
+      },
+      {
+        "id": "keychain-46",
+        "chance": 3
+      },
+      {
+        "id": "keychain-47",
+        "chance": 1
+      },
+      {
+        "id": "keychain-48",
+        "chance": 1
+      }
+    ],
+    "tone": "#83b9ee",
+    "code": "FL",
+    "mark": "✦",
+    "cover": "covers/case-2.png"
+  },
+  {
+    "id": "forge-2",
+    "name": "Sidearm Club",
+    "price": 420,
+    "drops": [
+      {
+        "id": "skin-54963e630d31",
+        "chance": 22
+      },
+      {
+        "id": "skin-72c4240d9c33",
+        "chance": 17
+      },
+      {
+        "id": "skin-d2229d2ac419",
+        "chance": 14
+      },
+      {
+        "id": "skin-c682eedb501e",
+        "chance": 11
+      },
+      {
+        "id": "skin-0feaf11a3f2d",
+        "chance": 9
+      },
+      {
+        "id": "skin-5eadf3687ff5",
+        "chance": 7
+      },
+      {
+        "id": "skin-ef297140e6ea",
+        "chance": 6
+      },
+      {
+        "id": "skin-8ba50607cea6",
+        "chance": 5
+      },
+      {
+        "id": "skin-8e15b1a9e945",
+        "chance": 4
+      },
+      {
+        "id": "skin-25ead8f88d62",
+        "chance": 3
+      },
+      {
+        "id": "skin-277f6e42830d",
+        "chance": 1
+      },
+      {
+        "id": "skin-75c8474d12a2",
+        "chance": 1
+      }
+    ],
+    "tone": "#efcb66",
+    "code": "GV",
+    "mark": "◇",
+    "cover": "covers/case-3.png"
+  },
+  {
+    "id": "forge-3",
+    "name": "Night Circuit",
+    "price": 1790,
+    "drops": [
+      {
+        "id": "skin-97cabeaedccd",
+        "chance": 22
+      },
+      {
+        "id": "skin-169fc42e8d8a",
+        "chance": 17
+      },
+      {
+        "id": "skin-d11a70424dd7",
+        "chance": 14
+      },
+      {
+        "id": "skin-87390b8680ce",
+        "chance": 11
+      },
+      {
+        "id": "skin-6772919e8e84",
+        "chance": 9
+      },
+      {
+        "id": "skin-aa2d649aeaf6",
+        "chance": 7
+      },
+      {
+        "id": "skin-612576d81a84",
+        "chance": 6
+      },
+      {
+        "id": "skin-feae180c4968",
+        "chance": 5
+      },
+      {
+        "id": "skin-b8631ce3380d",
+        "chance": 4
+      },
+      {
+        "id": "skin-c01d561550ed",
+        "chance": 3
+      },
+      {
+        "id": "skin-8599a25e2c67",
+        "chance": 1
+      },
+      {
+        "id": "skin-bb6ba9602776",
+        "chance": 1
+      }
+    ],
+    "tone": "#d99556",
+    "code": "RY",
+    "mark": "//",
+    "cover": "covers/case-4.png"
+  },
+  {
+    "id": "forge-4",
+    "name": "Chrome District",
+    "price": 6100,
+    "drops": [
+      {
+        "id": "skin-42c6a7e245d3",
+        "chance": 22
+      },
+      {
+        "id": "skin-cfaaa2fab447",
+        "chance": 17
+      },
+      {
+        "id": "skin-f098f9b83e8b",
+        "chance": 14
+      },
+      {
+        "id": "skin-0305a5aaa4eb",
+        "chance": 11
+      },
+      {
+        "id": "skin-7b1351c2adba",
+        "chance": 9
+      },
+      {
+        "id": "skin-16430ed7568b",
+        "chance": 7
+      },
+      {
+        "id": "skin-0827f8a09022",
+        "chance": 6
+      },
+      {
+        "id": "skin-c62d08aa8da1",
+        "chance": 5
+      },
+      {
+        "id": "skin-815a9f1c0092",
+        "chance": 4
+      },
+      {
+        "id": "skin-8e45a15cf7f5",
+        "chance": 3
+      },
+      {
+        "id": "skin-8c5b9b7ce9f2",
+        "chance": 1
+      },
+      {
+        "id": "skin-6370d1af59f7",
+        "chance": 1
+      }
+    ],
+    "tone": "#6dd2ae",
+    "code": "SC",
+    "mark": "+",
+    "cover": "covers/case-5.png"
+  },
+  {
+    "id": "forge-5",
+    "name": "Velvet Grip",
+    "price": 19350,
+    "drops": [
+      {
+        "id": "skin-3344646c8178",
+        "chance": 22
+      },
+      {
+        "id": "skin-52a9a70cdd76",
+        "chance": 17
+      },
+      {
+        "id": "skin-b1dcd2af898f",
+        "chance": 14
+      },
+      {
+        "id": "skin-30ad2640a228",
+        "chance": 11
+      },
+      {
+        "id": "skin-b8f492474850",
+        "chance": 9
+      },
+      {
+        "id": "skin-5410329f8334",
+        "chance": 7
+      },
+      {
+        "id": "skin-7b51c8bd957b",
+        "chance": 6
+      },
+      {
+        "id": "skin-d9b9add3d4ae",
+        "chance": 5
+      },
+      {
+        "id": "skin-e8384ee7aa31",
+        "chance": 4
+      },
+      {
+        "id": "skin-31ec4a2f49a1",
+        "chance": 3
+      },
+      {
+        "id": "skin-56be8a3a2bb8",
+        "chance": 1
+      },
+      {
+        "id": "skin-f9ff211df27d",
+        "chance": 1
+      }
+    ],
+    "tone": "#83b9ee",
+    "code": "FL",
+    "mark": "✦",
+    "cover": "covers/case-6.png"
+  },
+  {
+    "id": "forge-6",
+    "name": "Edge Theory",
+    "price": 54800,
+    "drops": [
+      {
+        "id": "skin-b25a8ebca2d7",
+        "chance": 22
+      },
+      {
+        "id": "skin-b2f32240e787",
+        "chance": 17
+      },
+      {
+        "id": "skin-b74285c4f1b1",
+        "chance": 14
+      },
+      {
+        "id": "skin-bcd9da197487",
+        "chance": 11
+      },
+      {
+        "id": "skin-c3366d0b2b1c",
+        "chance": 9
+      },
+      {
+        "id": "skin-d1d207eb0c92",
+        "chance": 7
+      },
+      {
+        "id": "skin-d6e12fd823c7",
+        "chance": 6
+      },
+      {
+        "id": "skin-ff7e0f49dcc9",
+        "chance": 5
+      },
+      {
+        "id": "skin-8f49a19645c9",
+        "chance": 4
+      },
+      {
+        "id": "skin-ae0ce77b8db7",
+        "chance": 3
+      },
+      {
+        "id": "skin-8370ef040f98",
+        "chance": 1
+      },
+      {
+        "id": "skin-cc03bb38269b",
+        "chance": 1
+      }
+    ],
+    "tone": "#efcb66",
+    "code": "GV",
+    "mark": "◇",
+    "cover": "covers/case-7.png"
+  },
+  {
+    "id": "forge-7",
+    "name": "Royal Vault",
+    "price": 350000,
+    "drops": [
+      {
+        "id": "skin-aad18179e45c",
+        "chance": 22
+      },
+      {
+        "id": "skin-21b617e52f11",
+        "chance": 17
+      },
+      {
+        "id": "skin-b2a571ffd94e",
+        "chance": 14
+      },
+      {
+        "id": "skin-500ce7426a18",
+        "chance": 11
+      },
+      {
+        "id": "skin-85ba0d17a1f9",
+        "chance": 9
+      },
+      {
+        "id": "skin-acdbb8faedd8",
+        "chance": 7
+      },
+      {
+        "id": "skin-ae1b4d1aff06",
+        "chance": 6
+      },
+      {
+        "id": "skin-a4133c8cedcb",
+        "chance": 5
+      },
+      {
+        "id": "skin-4b24c320cc23",
+        "chance": 4
+      },
+      {
+        "id": "skin-c458ae57ce73",
+        "chance": 3
+      },
+      {
+        "id": "skin-5301f5924e2a",
+        "chance": 1
+      },
+      {
+        "id": "skin-31104eb44a48",
+        "chance": 1
+      }
+    ],
+    "tone": "#d99556",
+    "code": "RY",
+    "mark": "//",
+    "cover": "covers/case-8.png"
   }
 ]

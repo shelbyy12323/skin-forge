@@ -1,4 +1,5 @@
 import {createClient} from '@libsql/client'
+import {identity} from '../lib/accounts.js'
 import worker from '../dist/server/index.js'
 
 let ready
@@ -26,7 +27,8 @@ export default async function handler(req,res) {
   try {
     ready ??= connect().catch(error=>{ready=undefined;throw error})
     const db=await ready
-    const request=new Request('https://localhost/api/'+req.query.operation,{method:req.method,headers:{'X-Skin-Forge-Session':req.headers['x-skin-forge-session']??''},body:req.method==='POST'?JSON.stringify(req.body??{}):undefined})
+    const me=await identity(req)
+    const request=new Request('https://localhost/api/'+req.query.operation,{method:req.method,headers:{'X-Skin-Forge-Session':me?.player??req.headers['x-skin-forge-session']??''},body:req.method==='POST'?JSON.stringify(req.body??{}):undefined})
     const result=await worker.fetch(request,{DB:db})
     res.status(result.status).json(await result.json())
   } catch {
