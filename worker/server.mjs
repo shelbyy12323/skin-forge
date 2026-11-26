@@ -1,3 +1,4 @@
+const bonusBox = caseCatalog[0]
 const onlineWindow = 75000
 const balanceLimit = 1000000000
 const inventoryLimit = 2000
@@ -48,9 +49,11 @@ function mutate(state, action) {
     }
     case 'case': {
       const box = caseCatalog.find(item => item.id === action.id)
-      if (!box || state.balance < box.price || state.items.length >= inventoryLimit) return null
+      const free = box?.id === bonusBox.id && (state.freeCases ?? 0) > 0
+      if (!box || (!free && state.balance < box.price) || state.items.length >= inventoryLimit) return null
       const drop = pickDrop(box, randomFraction())
-      state.balance = roundMoney(state.balance - box.price)
+      if (free) state.freeCases--
+      else state.balance = roundMoney(state.balance - box.price)
       state.items.push(drop.id)
       return {id: drop.id, chance: drop.chance, success: true}
     }
@@ -81,15 +84,17 @@ function mutate(state, action) {
       state.balance = roundMoney(state.balance - action.stake)
       if (success) state.items.push(action.id)
       state.history = [{id: action.id, chance, success}, ...state.history].slice(0, 12)
-      return {chance, offset, success}
+      const bonus = !success && total > 10000
+      if (bonus) state.freeCases = (state.freeCases ?? 0) + 1
+      return {chance, offset, success, bonus}
     }
     default: return null
   }
 }
 
 function playerResponse(row) {
-  const {balance, items, history} = JSON.parse(row.state)
-  return {version: row.version, state: {balance, items, history}}
+  const {balance, items, history, freeCases = 0} = JSON.parse(row.state)
+  return {version: row.version, state: {balance, items, history, freeCases}}
 }
 
 async function handleApi(request, db, path) {

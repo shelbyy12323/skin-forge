@@ -175,6 +175,8 @@ function resetWheel() {
   byId('needle').style.transform = ''
 }
 
+function hasFreeCase(id) { return id === caseCatalog[0].id && state.freeCases > 0 }
+
 function update() {
   const total = investment()
   const targetSkin = target === null ? null : skins[target]
@@ -190,9 +192,10 @@ function update() {
   byId('clear').disabled = locked() || !selected.size
   byId('topup').disabled = locked()
   for (const button of document.querySelectorAll('[data-case-price]')) {
-    const missing = Number(button.dataset.casePrice) - state.balance
+    const free = hasFreeCase(button.dataset.caseId)
+    const missing = (free ? 0 : Number(button.dataset.casePrice)) - state.balance
     button.disabled = locked() || missing > 0
-    if (!pending) button.textContent = missing > 0 ? 'Не хватает ' + money(missing) : 'Открыть за ' + money(Number(button.dataset.casePrice))
+    if (!pending) button.textContent = free ? 'Открыть бесплатно · ' + state.freeCases : missing > 0 ? 'Не хватает ' + money(missing) : 'Открыть за ' + money(Number(button.dataset.casePrice))
   }
   for (const button of document.querySelectorAll('.presets button')) button.disabled = locked() || !total
   showSlot(byId('source'), first.done ? null : skins[state.items[first.value]],
@@ -265,13 +268,19 @@ function renderProfile() {
   syncSelection()
 }
 
+function priceRange(prefix) {
+  const min = byId(prefix + 'min').valueAsNumber
+  const max = byId(prefix + 'max').valueAsNumber
+  return price => !(price < min || price > max)
+}
+
 function filteredSkins() {
   const query = byId('search').value.trim().toLowerCase()
-  const limit = byId('max').valueAsNumber
+  const withinRange = priceRange('')
   const direction = byId('sort').value === 'asc' ? 1 : -1
   const category = byId('category').value
   return catalogData.filter(skin => (!category || skin.category === category) && (skin.name + ' ' + skin.type).toLowerCase().includes(query) &&
-    (!Number.isFinite(limit) || skin.price <= limit)).sort((a, b) => direction * (a.price - b.price))
+    withinRange(skin.price)).sort((a, b) => direction * (a.price - b.price))
 }
 
 function renderCatalog() {
@@ -438,7 +447,8 @@ confirmation.addEventListener('submit', async event => {
 function renderShop() {
   const query = byId('shop-search').value.trim().toLowerCase()
   const direction = byId('shop-sort').value === 'asc' ? 1 : -1
-  const entries = catalogData.filter(skin => skin.name.toLowerCase().includes(query))
+  const withinRange = priceRange('shop-')
+  const entries = catalogData.filter(skin => withinRange(skin.price) && skin.name.toLowerCase().includes(query))
     .sort((a, b) => direction * (a.price - b.price))
   const pages = Math.max(1, Math.ceil(entries.length / shopPageSize))
   shopPage = Math.min(Math.max(0, shopPage), pages - 1)
@@ -464,7 +474,7 @@ function showShop(open) {
 
 byId('show-shop').addEventListener('click', () => showShop(true))
 byId('show-inventory').addEventListener('click', () => showShop(false))
-for (const id of ['shop-search', 'shop-sort']) byId(id).addEventListener('input', () => {
+for (const id of ['shop-search', 'shop-sort', 'shop-min', 'shop-max']) byId(id).addEventListener('input', () => {
   shopPage = 0
   renderShop()
 })
@@ -478,7 +488,7 @@ for (const category of [...new Set(catalogData.map(skin => skin.category))].sort
   option.value = category
   byId('category').append(option)
 }
-for (const id of ['search', 'category', 'max', 'sort']) {
+for (const id of ['search', 'category', 'min', 'max', 'sort']) {
   byId(id).addEventListener('input', () => {
     page = 0
     renderCatalog()
@@ -517,7 +527,7 @@ function renderCases() {
     tile.type = 'button'
     tile.style.setProperty('--tone', box.tone)
     const label = element('div', '', 'case-tile-label')
-    label.append(element('strong', box.name), element('span', money(box.price)))
+    label.append(element('strong', box.name), element('span', hasFreeCase(box.id) ? 'Бесплатно · ' + state.freeCases : money(box.price)))
     tile.append(crateArt(box), label)
     tile.addEventListener('click', () => renderCase(box))
     return tile
@@ -571,10 +581,12 @@ function renderCase(box) {
   reveal.hidden = true
   const open = element('button', 'Открыть за ' + money(box.price), 'primary')
   open.type = 'button'
+  open.dataset.caseId = box.id
   open.dataset.casePrice = box.price
-  open.disabled = locked() || state.balance < box.price
+  if (hasFreeCase(box.id)) open.textContent = 'Открыть бесплатно · ' + state.freeCases
+  open.disabled = locked() || (!hasFreeCase(box.id) && state.balance < box.price)
   open.addEventListener('click', async () => {
-    if (locked() || state.balance < box.price) return
+    if (locked() || (!hasFreeCase(box.id) && state.balance < box.price)) return
     pending = true
     reveal.hidden = true
     stage.classList.add('case-opening')
@@ -793,7 +805,7 @@ byId('upgrade').addEventListener('click', async () => {
   renderFeed()
   update()
   void refreshFeed()
-  byId('notice').textContent = success ? 'Успех! ' + skin.name + ' добавлен в инвентарь.' : 'Неудача. Предметы и баланс из ставки списаны.'
+  byId('notice').textContent = success ? 'Успех! ' + skin.name + ' добавлен в инвентарь.' : result.bonus ? 'Неудача. Во вкладке Cases доступен бесплатный кейс «' + caseCatalog[0].name + '».' : 'Неудача. Предметы и баланс из ставки списаны.'
 })
 renderInventory()
 renderCatalog()
