@@ -28,6 +28,7 @@ export default async function handler(req,res) {
     ready ??= connect().catch(error=>{ready=undefined;throw error})
     const db=await ready
     const me=await identity(req)
+    if(!me && req.query.operation==='action')return res.status(401).json({error:'Войди в Skin Forge, чтобы играть.'})
     const request=new Request('https://localhost/api/'+req.query.operation,{method:req.method,headers:{'X-Skin-Forge-Session':me?.player??req.headers['x-skin-forge-session']??''},body:req.method==='POST'?JSON.stringify(req.body??{}):undefined})
     const result=await worker.fetch(request,{DB:db})
     res.status(result.status).json(await result.json())

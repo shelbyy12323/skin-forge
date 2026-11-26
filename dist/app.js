@@ -110,7 +110,7 @@ async function perform(action) {
 }
 
 function locked() {
-  return rolling || pending || version === null
+  return document.body.classList.contains('guest') || rolling || pending || version === null
 }
 
 function element(tag, value, className) {
@@ -293,7 +293,7 @@ function demoDrops(now) {
     const key = Math.imul(slot ^ (slot >>> 12), 1597334677) >>> 0
     const pool = slot % 4 === 0 ? standardDrops : cheapDrops
     const skin = pool[key % pool.length]
-    return {key: 'demo-' + slot, bot: slot % 100 + 1, player: 'Бот ' + (slot % 100 + 1),
+    return {key: 'demo-' + slot, bot: slot % 100 + 1, player: botName(slot % 100 + 1),
       id: skin.id, kind: 'case', success: true, at: slot * botTick}
   })
 }
@@ -544,12 +544,13 @@ async function rollCase(stage, box, winner) {
     track.append(tile)
   }
   const cover = stage.querySelector('.case-cover')
+  cover.style.setProperty('--drop-color',winner.color)
   const emerging = picture(winner)
   emerging.classList.add('loot-emerging')
   cover.append(emerging)
   try {
-    await emerging.animate([{opacity:0, transform:'translate(-50%, 0) scale(.35)'}, {opacity:1, transform:'translate(-50%, -55%) scale(1.05)'}, {opacity:0, transform:'translate(-50%, -75%) scale(.95)'}],
-      {duration:400, easing:'ease-out'}).finished
+    await emerging.animate([{opacity:0, transform:'translate(-50%, 0) rotate(-24deg) scale(.25)'}, {opacity:1, transform:'translate(-50%, -55%) rotate(8deg) scale(1.28)'}, {opacity:0, transform:'translate(-50%, -75%) scale(.95)'}],
+      {duration:wheelSpeed==='fast'?650:1100, easing:'ease-out'}).finished
   } finally { emerging.remove() }
   viewport.append(track)
   cover.append(viewport)

@@ -12,11 +12,11 @@
 <script src="cases.js" defer></script>
 <script src="app.js" defer></script>
 </head>
-<body>
+<body class="guest">
 <header class="top"><a class="brand" href="./"><span class="logo"></span>SKIN<span>FORGE</span></a><nav class="top-nav" aria-label="Разделы"><button data-view="upgrade" aria-pressed="true">Upgrade</button><button data-view="cases" aria-pressed="false">Cases</button><button data-view="profile" aria-pressed="false">Профиль</button><button data-view="media" aria-pressed="false">Медийка</button></nav><div class="live-stats" aria-label="Статистика демо-игры">
   <span class="online" title="Игроки и демоботы"><i></i> LINE <strong id="online">—</strong></span>
   <span class="live-spins" title="Открытия кейсов и апгрейды, включая демоботов">SPINS <strong id="spin-total">—</strong></span>
-</div><div class="wallet"><strong id="wallet"></strong><button id="topup">＋ Пополнить</button></div></header>
+</div><button class="enter-forge primary">Войти</button><div class="wallet"><strong id="wallet"></strong><button id="topup">＋ Пополнить</button></div></header>
 <div class="layout">
 <aside class="sidebar"><h2><i></i> Последние выпадения</h2><div id="feed"></div></aside>
 <main>
@@ -39,7 +39,7 @@
   </div><h2><span id="inventory-title">Мои скины</span> <span id="inventory-count"></span></h2></div>
   <button id="clear" class="quiet">Сбросить выбор</button>
 </div>
-<div id="inventory" class="cards"></div>
+<section class="guest-preview"><h3>Вы не авторизованы</h3><p>Войдите, чтобы открыть инвентарь и играть.</p><button class="enter-forge primary">Войти через Steam</button><div id="preview-skins"></div></section><div id="inventory" class="cards"></div>
 <div id="shop" hidden>
   <div class="filters shop-filters"><input type="search" id="shop-search" placeholder="Поиск в магазине" aria-label="Поиск в магазине"><select id="shop-sort" aria-label="Сортировка магазина"><option value="asc">Сначала дешевле</option><option value="desc">Сначала дороже</option></select><input type="number" min="0" step="0.01" id="shop-min" placeholder="От ◈" aria-label="Минимальная цена в коинах"><input type="number" min="0" step="0.01" id="shop-max" placeholder="До ◈" aria-label="Максимальная цена в коинах"></div>
   <div id="shop-cards" class="cards"></div>
