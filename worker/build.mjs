@@ -9,6 +9,7 @@ for (const [name, type] of Object.entries({
   'skins.js': 'text/javascript',
   'charms.js':'text/javascript',
   'profiles.js':'text/javascript',
+  'battles.js':'text/javascript',
   'style.css': 'text/css',
 })) {
   assets['/' + name] = [readFileSync(new URL('../dist/' + name, import.meta.url), 'utf8'), type]
@@ -26,4 +27,4 @@ writeFileSync(new URL('index.js', output),
   'const assets = ' + JSON.stringify(assets) + '\n' +
   'const prices = ' + JSON.stringify(prices) + '\n' +
   'const caseCatalog = ' + JSON.stringify(caseCatalog) + '\n' +
-  'const legacyIds = ' + JSON.stringify(catalog.legacyIds) + '\n' + source)
+  'const legacyIds = ' + JSON.stringify(catalog.legacyIds) + '\n' + source + '\nexport {caseCatalog,prices}\n')

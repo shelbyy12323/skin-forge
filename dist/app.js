@@ -636,6 +636,7 @@ function renderCase(box) {
 }
 
 const sections = {
+  battles: ['Кейс-батлы','Два игрока открывают один кейс каждый. Самый дорогой дроп забирает оба предмета. При равной цене победителя выбирает жребий.'],
   upgrade: ['Skin Upgrade', 'Выбери скины, добавь баланс и попробуй улучшить свой инвентарь.'],
   cases: ['Cases', 'Открой демокейс и получи случайный скин. Шансы видны перед открытием.'],
   profile: ['Профиль', 'Управляй инвентарём и продавай скины за демомонеты.'],
@@ -644,6 +645,9 @@ const sections = {
 const tabs = [...document.querySelectorAll('[data-view]')]
 for (const tab of tabs) tab.addEventListener('click', () => {
   view = tab.dataset.view
+  byId('battles').hidden = view !== 'battles'
+  if(view === 'battles') refreshBattles()
+  else if(location.hash.startsWith('#battle=')) history.replaceState(null,'',location.pathname)
   for (const item of tabs) item.setAttribute('aria-pressed', item === tab)
   const [title, description] = sections[view]
   byId('intro').hidden = view === 'cases'

@@ -10,10 +10,10 @@
 <script src="charms.js" defer></script>
 <script src="profiles.js" defer></script>
 <script src="cases.js" defer></script>
-<script src="app.js" defer></script>
+<script src="app.js" defer></script><script src="battles.js" defer></script>
 </head>
 <body class="guest">
-<header class="top"><a class="brand" href="./"><span class="logo"></span>SKIN<span>FORGE</span></a><nav class="top-nav" aria-label="Разделы"><button data-view="upgrade" aria-pressed="true">Upgrade</button><button data-view="cases" aria-pressed="false">Cases</button><button data-view="profile" aria-pressed="false">Профиль</button><button data-view="media" aria-pressed="false">Медийка</button></nav><div class="live-stats" aria-label="Статистика демо-игры">
+<header class="top"><a class="brand" href="./"><span class="logo"></span>SKIN<span>FORGE</span></a><nav class="top-nav" aria-label="Разделы"><button data-view="upgrade" aria-pressed="true">Upgrade</button><button data-view="battles" aria-pressed="false">Батлы</button><button data-view="cases" aria-pressed="false">Cases</button><button data-view="profile" aria-pressed="false">Профиль</button><button data-view="media" aria-pressed="false">Медийка</button></nav><div class="live-stats" aria-label="Статистика демо-игры">
   <span class="online" title="Игроки и демоботы"><i></i> LINE <strong id="online">—</strong></span>
   <span class="live-spins" title="Открытия кейсов и апгрейды, включая демоботов">SPINS <strong id="spin-total">—</strong></span>
 </div><button class="enter-forge primary">Войти</button><div class="wallet"><strong id="wallet"></strong><button id="topup">＋ Пополнить</button></div></header>
@@ -48,7 +48,7 @@
 </section>
 <section class="panel"><div class="panel-head"><h2 id="catalog-title">Каталог CS2</h2><select id="sort" aria-label="Сортировка"><option value="asc">Сначала дешевле</option><option value="desc">Сначала дороже</option></select></div><div class="filters"><input type="search" id="search" placeholder="Поиск по названию" aria-label="Поиск по названию"><select id="category" aria-label="Категория"><option value="">Все категории</option></select><input type="number" min="0" step="0.01" id="min" placeholder="От ◈" aria-label="Минимальная цена в коинах"><input type="number" min="0" step="0.01" id="max" placeholder="До ◈" aria-label="Максимальная цена в коинах"></div><div id="catalog" class="cards"></div><div class="pagination"><button id="prev">Назад</button><span id="page-label"></span><button id="next">Дальше</button></div></section>
 </div>
-<section class="cases-grid" id="cases" aria-label="Кейсы Skin Forge" hidden></section>
+<section id="battles" hidden><div id="battle-content"></div><p id="battle-error" role="status"></p></section><section class="cases-grid" id="cases" aria-label="Кейсы Skin Forge" hidden></section>
 <section class="profile panel" id="profile" hidden>
   <header class="profile-header">
     <div class="profile-avatar" aria-hidden="true"><span class="logo"></span></div>
