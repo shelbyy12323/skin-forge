@@ -54,7 +54,7 @@ async function directory(admin=false,after='') {
   if(!admin){body.append(element('h3','Боты'));for(let n=1;n<=100;n++)body.append(profileButton(botName(n),()=>inspectBot(n)))}
 }
 function authForm(register=false) {
-  const body=profileDialog(register?'Создать аккаунт':'Войти в Skin Forge')
+  const body=profileDialog(register?'Регистрация в Skin Forge':'Войти в Skin Forge')
   const form=document.createElement('form')
   const field=(name,type,placeholder,autocomplete)=>{
     const input=document.createElement('input')
@@ -80,7 +80,13 @@ function authForm(register=false) {
     try{await accountCall(register?'register':'login',{name:name.value,password:password.value,invite:invite?.value});location.reload()}
     catch(err){message.textContent=err.message;submit.disabled=false}
   }
+  body.prepend(element('div','SF','forge-sign'))
   body.append(form,profileButton(register?'Уже есть аккаунт':'Создать аккаунт',()=>authForm(!register)))
+  if(!register){
+    const steam=element("a","Ранее входили через Steam?","steam-continue")
+    steam.href="/api/steam"
+    body.append(steam)
+  }
 }
 window.addEventListener('DOMContentLoaded',async()=>{
   byId('directory').onclick=()=>directory().catch(e=>profileDialog(e.message))
@@ -107,15 +113,7 @@ function botName(number){
   const tails=['Echo','Fox','Orbit','Rune','Volt','Nova','Drift','Pixel','Wave','Flare']
   return roots[Math.floor((number-1)/10)]+'·'+tails[(number-1)%10]
 }
-function loginPanel(){
-  const body=profileDialog('Вход в Skin Forge')
-  const art=element('div','SF','forge-sign')
-  const text=element('p','Steam подтвердит твой профиль и вернёт тебя в Skin Forge. Игровые предметы и коины виртуальные.')
-  const steam=element('a','Войти через Steam ↗','steam-continue')
-  steam.href='/api/steam'
-  body.prepend(art)
-  body.append(text,steam,profileButton('Войти в аккаунт Skin Forge',()=>authForm()))
-}
+function loginPanel(){ authForm(true) }
 function rotatePreview(){
   const strip=byId('preview-skins')
   let step=0

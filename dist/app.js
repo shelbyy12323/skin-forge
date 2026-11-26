@@ -802,7 +802,18 @@ byId('upgrade').addEventListener('click', async () => {
   renderFeed()
   update()
   void refreshFeed()
-  byId('notice').textContent = success ? 'Успех! ' + skin.name + ' добавлен в инвентарь.' : result.bonus ? 'Неудача. Во вкладке Cases доступен бесплатный кейс «' + caseCatalog[0].name + '».' : 'Неудача. Предметы и баланс из ставки списаны.'
+  const notice = byId('notice')
+  notice.textContent = success ? 'Успех! ' + skin.name + ' добавлен в инвентарь.' : 'Не повезло'
+  if (result.bonus) {
+    const box = caseCatalog[0]
+    const reward = element('section', '', 'bonus-drop')
+    const details = element('div')
+    details.append(element('strong', 'Выпал кейс «' + box.name + '»'), element('p', 'Добавлен во вкладку Cases.'))
+    const go = element('button', 'К кейсам', 'quiet')
+    go.onclick = () => document.querySelector('[data-view="cases"]').click()
+    reward.append(crateArt(box), details, go)
+    notice.append(reward)
+  }
 })
 renderInventory()
 renderCatalog()
